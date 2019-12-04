@@ -4,10 +4,21 @@ import models.Message;
 
 public class MessageTextView {
 
-    public MessageTextView(Message msgToDisplay) {
+    private Message msgToDisplay;
 
+    public MessageTextView(Message msgToDisplay) {
+        this.msgToDisplay = msgToDisplay;
     }
+
     @Override public String toString() {
-        return null;
-    } 
+
+        return String.format("From: %s\n" +
+                        "To: %s\n" +
+                        "Date: %s\n" +
+                        "Message: %s\n\n",
+                        this.msgToDisplay.getFromId(),
+                        this.msgToDisplay.getToId(),
+                        this.msgToDisplay.getTimestamp(),
+                        this.msgToDisplay.getMessage());
+    }
 }

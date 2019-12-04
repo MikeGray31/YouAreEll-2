@@ -2,12 +2,29 @@ package controllers;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Id;
 
 public class IdController {
-    Id myId;
+
+    private Id myId;
+    private ArrayList<Id> storedIds;
+    private TransactionController transactionController;
+
+    public IdController(TransactionController transactionController) throws JsonProcessingException {
+        this.storedIds = new ArrayList<>();
+        this.myId = null;
+        this.transactionController = transactionController;
+        getIds();
+    }
 
     public ArrayList<Id> getIds() {
+        String result = transactionController.MakeURLCall("/ids", "GET", "");
+        ObjectMapper mapper = new ObjectMapper();
+        this.storedIds.clear();
+
+
         return null;
     }
 
@@ -18,5 +35,14 @@ public class IdController {
     public Id putId(Id id) {
         return null;
     }
- 
+
+    public void setMyId(Id myId) {
+        this.myId = myId;
+    }
+
+    public Id getMyId() {
+        return myId;
+    }
+
+
 }

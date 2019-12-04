@@ -1,23 +1,31 @@
 package youareell;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import controllers.*;
 
 public class YouAreEll {
 
     private MessageController msgCtrl;
     private IdController idCtrl;
+    private TransactionController trCtrl;
 
-    public YouAreEll (MessageController m, IdController j) {
+    public YouAreEll () throws JsonProcessingException {
         // used j because i seems awkward
-        this.msgCtrl = m;
-        this.idCtrl = j;
+        this.trCtrl = new TransactionController();
+        this.msgCtrl = new MessageController();
+        this.idCtrl = new IdController(trCtrl);
     }
 
-    public static void main(String[] args) {
-        // hmm: is this Dependency Injection?
-        YouAreEll urlhandler = new YouAreEll(new MessageController(), new IdController());
-        System.out.println(urlhandler.MakeURLCall("/ids", "GET", ""));
-        System.out.println(urlhandler.MakeURLCall("/messages", "GET", ""));
+    public MessageController getMsgCtrl() {
+        return msgCtrl;
+    }
+
+    public IdController getIdCtrl() {
+        return idCtrl;
+    }
+
+    public TransactionController getTrCtrl() {
+        return trCtrl;
     }
 
     public String get_ids() {
@@ -29,6 +37,13 @@ public class YouAreEll {
     }
 
     public String MakeURLCall(String mainurl, String method, String jpayload) {
-        return "nada";
+        return trCtrl.MakeURLCall(mainurl, method, jpayload);
     }
+
+//    public static void main(String[] args) {
+//        // hmm: is this Dependency Injection?
+//        YouAreEll urlhandler = new YouAreEll();
+//        System.out.println(urlhandler.MakeURLCall("/ids", "GET", ""));
+//        System.out.println(urlhandler.MakeURLCall("/messages", "GET", ""));
+//    }
 }

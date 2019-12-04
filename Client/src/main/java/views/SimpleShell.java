@@ -21,7 +21,7 @@ public class SimpleShell {
     }
     public static void main(String[] args) throws java.io.IOException {
 
-        YouAreEll webber = new YouAreEll(new MessageController(), new IdController());
+        YouAreEll webber = new YouAreEll();
         
         String commandLine;
         BufferedReader console = new BufferedReader
@@ -68,6 +68,9 @@ public class SimpleShell {
 
                 // ids
                 if (list.contains("ids")) {
+                    if(list.size() == 1) {}
+
+                    else if(list.size() == 3 ){}
                     String results = webber.get_ids();
                     SimpleShell.prettyPrint(results);
                     continue;
