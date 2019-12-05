@@ -10,10 +10,9 @@ public class YouAreEll {
     private TransactionController trCtrl;
 
     public YouAreEll () throws JsonProcessingException {
-        // used j because i seems awkward
         this.trCtrl = new TransactionController();
-        this.msgCtrl = new MessageController();
-        this.idCtrl = new IdController(trCtrl);
+        this.idCtrl = new IdController(this.trCtrl);
+        this.msgCtrl = new MessageController(this.idCtrl, this.trCtrl);
     }
 
     public MessageController getMsgCtrl() {
@@ -38,6 +37,18 @@ public class YouAreEll {
 
     public String MakeURLCall(String mainurl, String method, String jpayload) {
         return trCtrl.MakeURLCall(mainurl, method, jpayload);
+    }
+
+    public String sendMessage(String input){
+        return null;
+    }
+
+    public String sendMessage(String input, String input2){
+        return null;
+    }
+
+    public String sendMessage(String input, String input2, String input3){
+        return null;
     }
 
 //    public static void main(String[] args) {

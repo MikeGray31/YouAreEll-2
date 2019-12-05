@@ -8,6 +8,14 @@ import models.Message;
 
 public class MessageController {
 
+    private IdController idCtrl;
+    private TransactionController trCtrl;
+
+    public MessageController(IdController idCtrl, TransactionController trCtrl){
+        this.idCtrl = idCtrl;
+        this.trCtrl = trCtrl;
+    }
+
     private HashSet<Message> messagesSeen;
     // why a HashSet??
 

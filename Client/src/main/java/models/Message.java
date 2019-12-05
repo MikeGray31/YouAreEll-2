@@ -29,13 +29,6 @@ public class Message implements Comparable<Message> {
         this.timestamp = null;
     }
 
-    public String getSequence() {
-        return sequence;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
 
     public String getFromId() {
         return fromId;
@@ -49,15 +42,23 @@ public class Message implements Comparable<Message> {
         return message;
     }
 
+    public String getSequence() {
+        return sequence;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+
     @Override
     public String toString() {
-        return "Message{" +
-                "sequence = '" + sequence + '\'' +
-                ", timestamp = " + timestamp +
-                ", fromId = '" + fromId + '\'' +
-                ", toId = '" + toId + '\'' +
-                ", message = '" + message + '\'' +
-                '}';
+        return "Message: " +
+                "\n   sequence = " + sequence  +
+                "\n   timestamp = " + timestamp +
+                "\n   fromId = " + fromId +
+                "\n   toId = " + toId +
+                "\n   message = " + message;
     }
 
     @Override

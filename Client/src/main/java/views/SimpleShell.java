@@ -68,9 +68,24 @@ public class SimpleShell {
 
                 // ids
                 if (list.contains("ids")) {
-                    if(list.size() == 1) {}
+                    if(list.size() == 1) {
+                        //System.out.println(webber.view_all_ids());
+                    }
+                    else if (list.size() == 2) {
+                        // "ids <name>" - get user
+                        //System.out.println(webber.get_id(list.get(1)));
+                    }
+                    else if (list.size() == 3) {
+                        // "ids <name> <gHname>"
+                        String name = list.get(1);
+                        String gHname = list.get(2);
+                        //webber.putOrPostId(name,gHname);
 
-                    else if(list.size() == 3 ){}
+                    }
+                    else if (list.size() == 3 && list.get(1).equalsIgnoreCase("setCurrent")) {
+                        // set current user for msgController
+                        //System.out.println(webber.setMyId(list.get(2)));
+                    }
                     String results = webber.get_ids();
                     SimpleShell.prettyPrint(results);
                     continue;
@@ -78,8 +93,38 @@ public class SimpleShell {
 
                 // messages
                 if (list.contains("messages")) {
-                    String results = webber.get_messages();
-                    SimpleShell.prettyPrint(results);
+                    if (list.size() == 1) {
+                        // "messages"
+                        //System.out.println(webber.view_all_messages());
+
+                    }
+                    else if (list.size() == 2) {
+                        //System.out.println(webber.view_messages_to_user(list.get(1)));
+                    }
+                }
+
+                if (list.get(0).equals("send") && messageToOneTerm(new ArrayList<String>(list)) != null) {
+
+                    list = messageToOneTerm(new ArrayList<String>(list));
+
+                    if (list.size() == 2) {
+                        // "send 'message'"
+                        System.out.println(webber.sendMessage(list.get(1)));
+                    }
+                    else if (list.size() == 3 && !list.contains("to")) {
+                        // "send <yourId> 'message'"
+                        System.out.println(webber.sendMessage(list.get(1),list.get(2)));
+
+                    }
+                    else {
+                        if (list.size() == 4 && list.get(2).equals("to")) {
+                            // "send 'message' to <recip>"
+                            System.out.println(webber.sendMessage("",list.get(3),list.get(1)));
+                        } else if (list.size() == 5 && list.get(3).equals("to")) {
+                            // "send <yourId> 'message' to <recip>"
+                            System.out.println(webber.sendMessage(list.get(1),list.get(4),list.get(2)));
+                        }
+                    }
                     continue;
                 }
                 // you need to add a bunch more.
@@ -129,7 +174,26 @@ public class SimpleShell {
 
         }
 
+    }
 
+    public static ArrayList<String> messageToOneTerm (ArrayList<String> list) {
+        int beginning = -1;
+        int ending = -1;
+
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).matches("^'.*$")) beginning = i;
+            if (list.get(list.size() - 1 - i).matches("^.*'$") ) ending = list.size() - 1 - i;
+            if(ending >= 0 && beginning >= 0) break;
+        }
+
+        if (beginning < 0 || ending < 0 || ending < beginning) return null;
+
+        String message = String.join(" ",list.subList(beginning, ending + 1));
+        message = message.replace("'","").trim();
+
+        for (int i = beginning; i < ending; i++ ){ list.remove(beginning); }
+        list.set(beginning,message);
+        return list;
     }
 
 }

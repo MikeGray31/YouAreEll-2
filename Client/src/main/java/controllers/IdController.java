@@ -22,8 +22,6 @@ public class IdController {
     public ArrayList<Id> getIds() {
         String result = transactionController.MakeURLCall("/ids", "GET", "");
         ObjectMapper mapper = new ObjectMapper();
-        this.storedIds.clear();
-
 
         return null;
     }
