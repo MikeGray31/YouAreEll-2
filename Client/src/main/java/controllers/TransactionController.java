@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
-
 public class TransactionController {
     private String rootURL = "http://zipcode.rocks:8085";
     private CloseableHttpClient httpclient;
@@ -27,11 +26,11 @@ public class TransactionController {
     public String MakeURLCall(String mainurl, String method, String jpayload) {
         try{
             switch (method){
-                case "GET":
+                case "get":
                     return get(mainurl);
-                case "PUT":
+                case "put":
                     return put(mainurl, jpayload);
-                case "POST":
+                case "post":
                     return post(mainurl, jpayload);
             }
         }
@@ -41,7 +40,7 @@ public class TransactionController {
         return "Encountered error";
     }
 
-    private String get(String url) throws IOException {
+    public String get(String url) throws IOException {
         HttpGet httpGet = new HttpGet(this.rootURL + url);
         CloseableHttpResponse response = this.httpclient.execute(httpGet);
 
@@ -56,18 +55,33 @@ public class TransactionController {
         return null;
     }
 
-    private String post(String url, String content) throws IOException {
+    public String post(String url, String content) throws IOException {
+        String result = "";
         HttpPost httpPost = new HttpPost(this.rootURL + url);
-        return "This is a post";
+        httpPost.setEntity(new StringEntity(content));
+        CloseableHttpResponse response = this.httpclient.execute(httpPost);
+        try {
+            HttpEntity entity2 = response.getEntity();
+            result = EntityUtils.toString(entity2);
+            EntityUtils.consume(entity2);
+        } finally {
+            response.close();
+        }
+        return result;
     }
 
-    private String put(String url, String content) throws IOException {
+    public String put(String url, String content) throws IOException {
         String result = "";
         HttpPut httpPut = new HttpPut(this.rootURL + url);
         httpPut.setEntity(new StringEntity(content));
         CloseableHttpResponse response = this.httpclient.execute(httpPut);
-
-
+        try {
+            HttpEntity entity2 = response.getEntity();
+            result = EntityUtils.toString(entity2);
+            EntityUtils.consume(entity2);
+        } finally {
+            response.close();
+        }
         return result;
     }
 }

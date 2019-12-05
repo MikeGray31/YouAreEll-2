@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import controllers.IdController;
-import controllers.MessageController;
 import youareell.YouAreEll;
 
 // Simple Shell is a Console view for youareell.YouAreEll.
@@ -75,16 +73,15 @@ public class SimpleShell {
                         // "ids <name>" - get user
                         //System.out.println(webber.get_id(list.get(1)));
                     }
+                    else if (list.size() == 3 && list.get(1).equalsIgnoreCase("setCurrent")) {
+                        // set current user for msgController
+                        System.out.println(webber.setMyId(list.get(2)));
+                    }
                     else if (list.size() == 3) {
                         // "ids <name> <gHname>"
                         String name = list.get(1);
                         String gHname = list.get(2);
                         //webber.putOrPostId(name,gHname);
-
-                    }
-                    else if (list.size() == 3 && list.get(1).equalsIgnoreCase("setCurrent")) {
-                        // set current user for msgController
-                        //System.out.println(webber.setMyId(list.get(2)));
                     }
                     String results = webber.get_ids();
                     SimpleShell.prettyPrint(results);
@@ -108,22 +105,21 @@ public class SimpleShell {
                     list = messageToOneTerm(new ArrayList<String>(list));
 
                     if (list.size() == 2) {
-                        // "send 'message'"
+                        // input = "send 'message'"
                         System.out.println(webber.sendMessage(list.get(1)));
                     }
                     else if (list.size() == 3 && !list.contains("to")) {
-                        // "send <yourId> 'message'"
+                        // input = "send <yourId> 'message'"
                         System.out.println(webber.sendMessage(list.get(1),list.get(2)));
 
                     }
-                    else {
-                        if (list.size() == 4 && list.get(2).equals("to")) {
-                            // "send 'message' to <recip>"
+                    else if (list.size() == 4 && list.get(2).equals("to")) {
+                            // input = "send 'message' to <recip>"
                             System.out.println(webber.sendMessage("",list.get(3),list.get(1)));
-                        } else if (list.size() == 5 && list.get(3).equals("to")) {
-                            // "send <yourId> 'message' to <recip>"
+                    }
+                    else if (list.size() == 5 && list.get(3).equals("to")) {
+                            // input = "send <yourId> 'message' to <recip>"
                             System.out.println(webber.sendMessage(list.get(1),list.get(4),list.get(2)));
-                        }
                     }
                     continue;
                 }
