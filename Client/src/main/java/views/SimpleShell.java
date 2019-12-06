@@ -72,7 +72,7 @@ public class SimpleShell {
                         // "ids <name>" - get user
                         System.out.println(webber.getId(list.get(1)));
                     }
-                    else if (list.size() == 3 && list.get(1).equalsIgnoreCase("setCurrent")) {
+                    else if (list.size() == 3 && list.get(1).equalsIgnoreCase("setcurrent")) {
                         // set current user for msgController
                         System.out.println(webber.setMyId(list.get(2)));
                     }
@@ -92,7 +92,6 @@ public class SimpleShell {
                     if (list.size() == 1) {
                         // "messages"
                         System.out.println(webber.view_all_messages());
-
                     }
                     else if (list.size() == 2) {
                         System.out.println(webber.view_messages_to_user(list.get(1)));
