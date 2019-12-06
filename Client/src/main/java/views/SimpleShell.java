@@ -48,9 +48,8 @@ public class SimpleShell {
 
             //loop through to see if parsing worked
             for (int i = 0; i < commands.length; i++) {
-                //System.out.println(commands[i]); //***check to see if parsing/split worked***
+                System.out.println(commands[i]); //***check to see if parsing/split worked***
                 list.add(commands[i]);
-
             }
             System.out.print(list); //***check to see if list was added correctly***
             history.addAll(list);
@@ -67,11 +66,11 @@ public class SimpleShell {
                 // ids
                 if (list.contains("ids")) {
                     if(list.size() == 1) {
-                        //System.out.println(webber.view_all_ids());
+                        System.out.println(webber.view_all_ids());
                     }
                     else if (list.size() == 2) {
                         // "ids <name>" - get user
-                        //System.out.println(webber.get_id(list.get(1)));
+                        System.out.println(webber.getId(list.get(1)));
                     }
                     else if (list.size() == 3 && list.get(1).equalsIgnoreCase("setCurrent")) {
                         // set current user for msgController
@@ -81,7 +80,7 @@ public class SimpleShell {
                         // "ids <name> <gHname>"
                         String name = list.get(1);
                         String gHname = list.get(2);
-                        //webber.putOrPostId(name,gHname);
+                        webber.putOrPostId(name,gHname);
                     }
                     String results = webber.get_ids();
                     SimpleShell.prettyPrint(results);
@@ -92,11 +91,11 @@ public class SimpleShell {
                 if (list.contains("messages")) {
                     if (list.size() == 1) {
                         // "messages"
-                        //System.out.println(webber.view_all_messages());
+                        System.out.println(webber.view_all_messages());
 
                     }
                     else if (list.size() == 2) {
-                        //System.out.println(webber.view_messages_to_user(list.get(1)));
+                        System.out.println(webber.view_messages_to_user(list.get(1)));
                     }
                 }
 
@@ -169,7 +168,6 @@ public class SimpleShell {
              */
 
         }
-
     }
 
     public static ArrayList<String> messageToOneTerm (ArrayList<String> list) {
@@ -183,13 +181,13 @@ public class SimpleShell {
         }
 
         if (beginning < 0 || ending < 0 || ending < beginning) return null;
-
-        String message = String.join(" ",list.subList(beginning, ending + 1));
-        message = message.replace("'","").trim();
-
-        for (int i = beginning; i < ending; i++ ){ list.remove(beginning); }
-        list.set(beginning,message);
-        return list;
+        else {
+            String message = String.join(" ", list.subList(beginning, ending + 1));
+            message = message.replace("'", "").trim();
+            for (int i = beginning; i < ending; i++) { list.remove(beginning); }
+            list.set(beginning, message);
+            return list;
+        }
     }
 
 }

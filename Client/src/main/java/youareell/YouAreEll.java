@@ -2,6 +2,8 @@ package youareell;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import controllers.*;
+import models.Id;
+import views.IdTextView;
 import views.MessageTextView;
 
 import java.io.IOException;
@@ -67,10 +69,26 @@ public class YouAreEll {
         return null;
     }
 
-//    public static void main(String[] args) {
-//        // hmm: is this Dependency Injection?
-//        YouAreEll urlhandler = new YouAreEll();
-//        System.out.println(urlhandler.MakeURLCall("/ids", "GET", ""));
-//        System.out.println(urlhandler.MakeURLCall("/messages", "GET", ""));
-//    }
+    public String view_all_ids() throws JsonProcessingException {
+        return IdTextView.printIds(idCtrl.getIds());
+    }
+
+    public String getId(String gitName) {
+        Id idFound = idCtrl.getIdByGithubName(gitName);
+        if (idFound != null) return new IdTextView(idFound).toString();
+        else return "ID does not exist";
+    }
+
+    public void putOrPostId(String name, String gitName) throws JsonProcessingException {
+        if(idCtrl.getIdByGithubName(gitName) == null) idCtrl.postId(new Id(name, gitName));
+        else idCtrl.getIdByGithubName(gitName).setName(name);
+    }
+
+    public String view_all_messages() throws JsonProcessingException {
+        return msgCtrl.printMessages(msgCtrl.getMessages(20,""));
+    }
+
+    public String view_messages_to_user(String githubId) throws JsonProcessingException {
+        return msgCtrl.printMessages(msgCtrl.getMessages(20,githubId));
+    }
 }

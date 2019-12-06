@@ -8,11 +8,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Id {
 
     @JsonProperty("userid")
-    String userId;
+    private String userId;
     @JsonProperty("name")
-    String name;
+    private String name;
     @JsonProperty("github")
-    String githubId;
+    private String githubId;
 
     public Id (String name, String githubId) {
         this.name = name;

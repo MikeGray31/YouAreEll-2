@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Id;
 import models.Message;
+import views.MessageTextView;
 
 public class MessageController {
 
@@ -75,5 +76,13 @@ public class MessageController {
         String url = "/ids/" + myId.getGithubId() + "/messages";
         String result = this.trCtrl.post(url, payload);
         return mapper.readValue(result,Message.class);
+    }
+
+    public String printMessages(ArrayList<Message> messages) {
+        String output = "";
+        for (Message message: messages) {
+            output += new MessageTextView(message).toString();
+        }
+        return output;
     }
 }
